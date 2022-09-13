@@ -1,15 +1,20 @@
-const formatResult = res => Math.round(res * 100)
+const formatScore = res => Math.round(res * 100)
 
-const formatLightHouseResults = result => {
-  const formattedResults = {}
+const formatLightHouseSummary = result => {
+  const formattedSummary = {}
 
   Object.keys(result).forEach(
-    key => (formattedResults[key] = formatResult(result[key]))
+    key => (formattedSummary[key] = formatScore(result[key]))
   )
 
-  return formattedResults
+  return formattedSummary
 }
 
-module.exports = result => {
-  return formatLightHouseResults(result)
+module.exports = (results = []) => {
+  const formattedResults = results.map(({url, summary}) => {
+    const formattedSummary = formatLightHouseSummary(summary)
+    return {summary: formattedSummary, url}
+  })
+
+  return formattedResults
 }
