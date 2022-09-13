@@ -51,7 +51,8 @@ runs:
       uses: marocchino/sticky-pull-request-comment@v2
       with:
         GITHUB_TOKEN: ${{ inputs.GITHUB_TOKEN }}
+        hide_and_recreate: true
+        hide_classify: "OUTDATED"
         number: ${{ github.event.issue.number }}
-        header: lighthouse
         message: |
           ${{ steps.format_lhci_score.outputs.comment }}
