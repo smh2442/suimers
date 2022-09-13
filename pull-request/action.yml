@@ -46,7 +46,7 @@ runs:
           const result = ${{ steps.lhci.outputs.manifest }}[0].summary
           const mappedResult = mapLhciResults(result)
           const comment = getComment([mappedResult])
-          return {comment}
+          core.setOutput("comment", comment);
     - name: Add comment to PR
       id: comment_to_pr
       uses: marocchino/sticky-pull-request-comment@v2
