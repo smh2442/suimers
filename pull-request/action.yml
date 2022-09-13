@@ -30,8 +30,6 @@ runs:
       with:
         configPath: ./.lighthouserc.js
         urls: ${{inputs.urls}}
-      env:
-        LHCI_GITHUB_TOKEN: ${{ inputs.LHCI_GITHUB_TOKEN }}
     - name: Format lighthouse score
       id: format_lhci_score
       uses: actions/github-script@v6
