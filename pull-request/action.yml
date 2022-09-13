@@ -32,7 +32,6 @@ runs:
         urls: |
           http://localhost:8000/
           http://localhost:8000/listing
-        uploadArtifacts: true
       env:
         LHCI_GITHUB_TOKEN: ${{ inputs.LHCI_GITHUB_TOKEN }}
     - name: Format lighthouse score
@@ -46,7 +45,6 @@ runs:
           const fromResultsToCommentMapper = require(path.resolve('./src/fromResultsToCommentMapper.js'))
           const results = mapLhciResults(${{ steps.lhci.outputs.manifest }})
           const comment = fromResultsToCommentMapper(results)
-          console.log(${{ steps.lhci.outputs.links }})
           core.setOutput("comment", comment);
     - name: Add comment to PR
       id: comment_to_pr
