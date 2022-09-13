@@ -34,12 +34,15 @@ runs:
     - name: Format lighthouse score
       id: format_lighthouse_score
       uses: actions/github-script@v6
+      env:
+        manifest: ${{ steps.lighthouse_audit.outputs.manifest }}
+        links: ${{ steps.lighthouse_audit.outputs.links }}
       with:
         github-token: ${{inputs.LHCI_GITHUB_TOKEN}}
         script: |
-          console.log(${{ steps.lighthouse_audit.outputs }})
-          const result = ${{ steps.lighthouse_audit.outputs.manifest }}[0].summary
-          const links = ${{ steps.lighthouse_audit.outputs.links }}
+          console.log(${{ process.env.manifest }})
+          const result = ${{ process.env.manifest }}[0].summary
+          const links = ${{ process.env.links }}
           const formatResult = (res) => Math.round((res * 100))
           Object.keys(result).forEach(key => result[key] = formatResult(result[key]))
           const score = res => res >= 90 ? '🟢' : res >= 50 ? '🟠' : '🔴'
