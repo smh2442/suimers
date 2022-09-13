@@ -41,9 +41,12 @@ runs:
         github-token: ${{inputs.GITHUB_TOKEN}}
         script: |
           const path = require('path')
-          const script = require(path.resolve('./src/mapLhciResults.js'))
+          const mapLhciResults = require(path.resolve('./src/mapLhciResults.js'))
+          const getComment = require(path.resolve('./src/getComment.js'))
           const result = ${{ steps.lhci.outputs.manifest }}[0].summary
-          console.log(script(result))
+          const mappedResult = mapLhciResults(result)
+          const comment = getComment([mappedResult])
+          return comment
     - name: Add comment to PR
       id: comment_to_pr
       uses: marocchino/sticky-pull-request-comment@v2
