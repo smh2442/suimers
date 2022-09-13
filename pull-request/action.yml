@@ -40,10 +40,13 @@ runs:
       with:
         github-token: ${{inputs.GITHUB_TOKEN}}
         script: |
-          const result = ${{ steps.lighthouse_audit.outputs.manifest }}[0].summary
-          const links = ${{ steps.lighthouse_audit.outputs.links }}
-          console.log(JSON.stringify(result))
-          console.log(JSON.stringify(links))
+          const result = ${{ steps.lighthouse_audit.outputs.manifest }}[0].summary;
+          const links = ${{ steps.lighthouse_audit.outputs.links }};
+          const formatResult = res => Math.round(res * 100);
+          const score = res => (res >= 90 ? '🟢' : res >= 50 ? '🟠' : '🔴');
+          Object.keys(result).forEach(key => (result[key] = formatResult(result[key])));
+          console.log(JSON.stringify(result));
+          console.log(JSON.stringify(links));
     - name: Add comment to PR
       id: comment_to_pr
       uses: marocchino/sticky-pull-request-comment@v2
