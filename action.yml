@@ -1,0 +1,72 @@
+name: 'Lighthouse CI for Pull Requests'
+description: 'Runs Lighthouse CI on a PR and posts the results as a comment'
+
+inputs:
+  number:
+    description: 'Pull Request number'
+    default: ''
+  LHCI_GITHUB_TOKEN:
+    description: 'LHCI_GITHUB_TOKEN'
+    required: true
+  GITHUB_TOKEN:
+    description: 'GITHUB_TOKEN'
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - run: |
+        sudo apt-get update
+        sudo apt-get install -y libgconf-2-4 libatk1.0-0 libatk-bridge2.0-0 libgdk-pixbuf2.0-0 libgtk-3-0 libgbm-dev libnss3-dev libxss-dev libasound2
+      shell: bash
+    - uses: browser-actions/setup-chrome@latest
+    - run: |
+        chrome --version
+        which chrome
+      shell: bash
+    - name: Audit preview URL with Lighthouse
+      id: lighthouse_audit
+      uses: treosh/lighthouse-ci-action@v3
+      with:
+        configPath: ./.lighthouserc.js
+        urls: |
+          http://localhost:8000/
+          http://localhost:8000/listing
+        uploadArtifacts: true
+        temporaryPublicStorage: true
+      env:
+        LHCI_GITHUB_TOKEN: ${{ inputs.LHCI_GITHUB_TOKEN }}
+    - name: Format lighthouse score
+      id: format_lighthouse_score
+      uses: actions/github-script@v3
+      with:
+        github-token: ${{inputs.GITHUB_TOKEN}}
+        script: |
+          console.log(${{ steps.lighthouse_audit.outputs }})
+          const result = ${{ steps.lighthouse_audit.outputs.manifest }}[0].summary
+          const links = ${{ steps.lighthouse_audit.outputs.links }}
+          const formatResult = (res) => Math.round((res * 100))
+          Object.keys(result).forEach(key => result[key] = formatResult(result[key]))
+          const score = res => res >= 90 ? '🟢' : res >= 50 ? '🟠' : '🔴'
+          const comment = [
+              `⚡️ [Lighthouse report](${Object.values(links)[0]}) for the changes in this PR:`,
+              '| Category | Score |',
+              '| --- | --- |',
+              `| ${score(result.performance)} Performance | ${result.performance} |`,
+              `| ${score(result.accessibility)} Accessibility | ${result.accessibility} |`,
+              `| ${score(result['best-practices'])} Best practices | ${result['best-practices']} |`,
+              `| ${score(result.seo)} SEO | ${result.seo} |`,
+              `| ${score(result.pwa)} PWA | ${result.pwa} |`,
+              ' ',
+              `*Lighthouse ran on [${Object.keys(links)[0]}](${Object.keys(links)[0]})*`
+          ].join('\n')
+            core.setOutput("comment", comment);
+    - name: Add comment to PR
+      id: comment_to_pr
+      uses: marocchino/sticky-pull-request-comment@v2
+      with:
+        GITHUB_TOKEN: ${{ inputs.GITHUB_TOKEN }}
+        number: ${{ github.event.issue.number }}
+        header: lighthouse
+        message: |
+          ${{ steps.format_lighthouse_score.outputs.comment }}
