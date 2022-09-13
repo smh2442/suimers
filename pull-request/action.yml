@@ -42,7 +42,7 @@ runs:
         script: |
           const path = require('path')
           const script = require(path.resolve('./src/mapLhciResults.js'))
-          const result = ${{ steps.lighthouse_audit.outputs.manifest }}[0].summary
+          const result = ${{ steps.lhci.outputs.manifest }}[0].summary
           console.log(script(result))
     - name: Add comment to PR
       id: comment_to_pr
