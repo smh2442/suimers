@@ -25,7 +25,7 @@ runs:
         which chrome
       shell: bash
     - name: Audit preview URL with Lighthouse
-      id: lighthouse_audit
+      id: lhci
       uses: treosh/lighthouse-ci-action@v3
       with:
         configPath: ./.lighthouserc.js
@@ -40,13 +40,10 @@ runs:
       with:
         github-token: ${{inputs.GITHUB_TOKEN}}
         script: |
-          console.log(JSON.stringify(${{ steps.lighthouse_audit.outputs.manifest }}))
+          const path = require('path')
+          const script = require(path.resolve('./src/mapLhciResults.js'))
           const result = ${{ steps.lighthouse_audit.outputs.manifest }}[0].summary
-          const links = ${{ steps.lighthouse_audit.outputs.links }}
-          function formatResult(res) {
-            return Math.round(res * 100)
-          }
-          Object.keys(result).forEach(key => (result[key] = formatResult(result[key])))
+          console.log(script(result))
     - name: Add comment to PR
       id: comment_to_pr
       uses: marocchino/sticky-pull-request-comment@v2

@@ -2,13 +2,27 @@
   "name": "frontend-common--lighthouse-pr-action",
   "version": "1.0.0",
   "description": "Action for running Lighthouse CI on a PR and posts the results as a comment",
-  "scripts": {
-    "co": "npx @s-ui/mono@2 commit"
-  },
   "repository": {
     "type": "git",
     "url": "https://github.mpi-internal.com/rafael-moral/frontend-common--lighthouse-pr-action.git"
   },
-  "author": "",
-  "license": "MIT"
+  "license": "MIT",
+  "scripts": {
+    "co": "npx @s-ui/mono@2 commit",
+    "test": "npx @s-ui/test server -P './test/**/*.js'"
+  },
+  "dependencies": {
+    "@s-ui/lint": "4",
+    "@s-ui/test": "^8.23.0",
+    "chai": "^4.3.6"
+  },
+  "eslintConfig": {
+    "extends": [
+      "./node_modules/@s-ui/lint/eslintrc.js"
+    ]
+  },
+  "prettier": "./node_modules/@s-ui/lint/.prettierrc.js",
+  "stylelint": {
+    "extends": "./node_modules/@s-ui/lint/stylelint.config.js"
+  }
 }
