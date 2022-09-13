@@ -5,12 +5,6 @@ inputs:
   urls:
     description: 'List of URL(s) to analyze'
     required: true
-  LHCI_GITHUB_TOKEN:
-    description: 'LHCI_GITHUB_TOKEN'
-    required: true
-  GITHUB_TOKEN:
-    description: 'GITHUB_TOKEN'
-    required: true
 
 runs:
   using: "composite"
@@ -45,7 +39,6 @@ runs:
       id: comment_to_pr
       uses: marocchino/sticky-pull-request-comment@v2
       with:
-        GITHUB_TOKEN: ${{ inputs.GITHUB_TOKEN }}
         hide_and_recreate: true
         hide_classify: "OUTDATED"
         number: ${{ github.event.issue.number }}
