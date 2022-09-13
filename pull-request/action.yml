@@ -40,8 +40,10 @@ runs:
       with:
         github-token: ${{inputs.GITHUB_TOKEN}}
         script: |
-          console.log(${{ steps.lighthouse_audit.outputs }})
-          core.setOutput('comment', 'yay')
+          const result = ${{ steps.lighthouse_audit.outputs.manifest }}[0].summary
+          const links = ${{ steps.lighthouse_audit.outputs.links }}
+          console.log(JSON.stringify(result))
+          console.log(JSON.stringify(links))
     - name: Add comment to PR
       id: comment_to_pr
       uses: marocchino/sticky-pull-request-comment@v2
