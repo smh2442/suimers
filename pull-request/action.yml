@@ -36,7 +36,6 @@ runs:
       id: format_lhci_score
       uses: actions/github-script@v6
       with:
-        github-token: ${{inputs.GITHUB_TOKEN}}
         script: |
           const path = require('path')
           const mapLhciResults = require(path.resolve('./src/mapLhciResults.js'))
