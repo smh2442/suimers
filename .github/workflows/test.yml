@@ -35,6 +35,8 @@ jobs:
       - name: Run Lighthouse pull request action
         uses: ./pull-request
         with:
-          number: ${{ github.event.issue.number }}
+          urls: |
+            http://localhost:8000/
+            http://localhost:8000/listing
           LHCI_GITHUB_TOKEN: ${{ secrets.LHCI_GITHUB_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

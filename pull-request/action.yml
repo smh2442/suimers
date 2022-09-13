@@ -2,9 +2,9 @@ name: 'Lighthouse CI for Pull Requests'
 description: 'Runs Lighthouse CI on a PR and posts the results as a comment'
 
 inputs:
-  number:
-    description: 'Pull Request number'
-    default: ''
+  urls:
+    description: 'List of URL(s) to analyze'
+    required: true
   LHCI_GITHUB_TOKEN:
     description: 'LHCI_GITHUB_TOKEN'
     required: true
@@ -29,9 +29,7 @@ runs:
       uses: treosh/lighthouse-ci-action@v3
       with:
         configPath: ./.lighthouserc.js
-        urls: |
-          http://localhost:8000/
-          http://localhost:8000/listing
+        urls: ${{inputs.urls}}
       env:
         LHCI_GITHUB_TOKEN: ${{ inputs.LHCI_GITHUB_TOKEN }}
     - name: Format lighthouse score
