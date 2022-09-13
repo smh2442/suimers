@@ -35,7 +35,7 @@ runs:
       env:
         LHCI_GITHUB_TOKEN: ${{ inputs.LHCI_GITHUB_TOKEN }}
     - name: Format lighthouse score
-      id: format_lighthouse_score
+      id: format_lhci_score
       uses: actions/github-script@v6
       with:
         github-token: ${{inputs.GITHUB_TOKEN}}
@@ -47,7 +47,7 @@ runs:
           const mappedResult = mapLhciResults(result)
           const results = [mappedResult]
           const comment = getComment({results})
-          console.log(comment)
+          core.setOutput("comment", comment);
     - name: Add comment to PR
       id: comment_to_pr
       uses: marocchino/sticky-pull-request-comment@v2
@@ -56,4 +56,4 @@ runs:
         number: ${{ github.event.issue.number }}
         header: lighthouse
         message: |
-          ${{ steps.format_lighthouse_score.outputs.comment }}
+          ${{ steps.format_lhci_score.outputs.comment }}
