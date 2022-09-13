@@ -42,11 +42,12 @@ runs:
         script: |
           const path = require('path')
           const mapLhciResults = require(path.resolve('./src/mapLhciResults.js'))
-          const getComment = require(path.resolve('./src/getComment.js'))
+          const fromResultsToCommentMapper = require(path.resolve('./src/fromResultsToCommentMapper.js'))
+          console.log(${{ steps.lhci.outputs.manifest }})
           const result = ${{ steps.lhci.outputs.manifest }}[0].summary
           const mappedResult = mapLhciResults(result)
           const results = [mappedResult]
-          const comment = getComment({results})
+          const comment = fromResultsToCommentMapper({results})
           core.setOutput("comment", comment);
     - name: Add comment to PR
       id: comment_to_pr

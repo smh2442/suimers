@@ -23,10 +23,10 @@ const getResultPart = result => {
   ].join('\n')
 }
 
-const getComment = ({results = []}) => {
+const fromResultsToCommentMapper = ({results = []}) => {
   const comment = results.map(getResultPart).join('\n')
 
   return comment
 }
 
-module.exports = getComment
+module.exports = fromResultsToCommentMapper

@@ -1,7 +1,7 @@
 /* eslint-env mocha */
 import {expect} from 'chai'
 
-const getComment = require('../src/getComment.js')
+const fromResultsToCommentMapper = require('../src/fromResultsToCommentMapper.js')
 
 const results = [
   {
@@ -13,9 +13,9 @@ const results = [
   }
 ]
 
-describe('getComment', () => {
+describe('fromResultsToCommentMapper', () => {
   it('should map results to a github comment string', async () => {
-    const comment = getComment({results})
+    const comment = fromResultsToCommentMapper({results})
 
     expect(comment).to.eql(
       [
