@@ -1,10 +1,10 @@
 {
-  "name": "frontend-common--lighthouse-pr-action",
+  "name": "@s-ui/lighthouse-action",
   "version": "1.0.0",
   "description": "Action for running Lighthouse CI on a PR and posts the results as a comment",
   "repository": {
     "type": "git",
-    "url": "https://github.mpi-internal.com/rafael-moral/frontend-common--lighthouse-pr-action.git"
+    "url": "https://github.com/SUI-Components/lighthouse-action.git"
   },
   "license": "MIT",
   "scripts": {
@@ -13,8 +13,8 @@
   },
   "dependencies": {
     "@s-ui/lint": "4",
-    "@s-ui/test": "^8.23.0",
-    "chai": "^4.3.6"
+    "@s-ui/test": "8",
+    "chai": "4.3.6"
   },
   "eslintConfig": {
     "extends": [
