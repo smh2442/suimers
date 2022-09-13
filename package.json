@@ -9,5 +9,6 @@
     "type": "git",
     "url": "https://github.mpi-internal.com/rafael-moral/frontend-common--lighthouse-pr-action.git"
   },
-  "author": "Web Platform <enablers-frontend@adevinta.com>"
+  "author": "",
+  "license": "MIT"
 }
