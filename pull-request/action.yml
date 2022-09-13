@@ -8,9 +8,6 @@ inputs:
   LHCI_GITHUB_TOKEN:
     description: 'LHCI_GITHUB_TOKEN'
     required: true
-  GITHUB_TOKEN:
-    description: 'GITHUB_TOKEN'
-    required: true
 
 runs:
   using: "composite"
@@ -32,15 +29,13 @@ runs:
         urls: |
           http://localhost:8000/
           http://localhost:8000/listing
-        uploadArtifacts: true
-        temporaryPublicStorage: true
       env:
         LHCI_GITHUB_TOKEN: ${{ inputs.LHCI_GITHUB_TOKEN }}
     - name: Format lighthouse score
       id: format_lighthouse_score
       uses: actions/github-script@v3
       with:
-        github-token: ${{inputs.GITHUB_TOKEN}}
+        github-token: ${{inputs.LHCI_GITHUB_TOKEN}}
         script: |
           console.log(${{ steps.lighthouse_audit.outputs }})
           const result = ${{ steps.lighthouse_audit.outputs.manifest }}[0].summary
@@ -65,7 +60,7 @@ runs:
       id: comment_to_pr
       uses: marocchino/sticky-pull-request-comment@v2
       with:
-        GITHUB_TOKEN: ${{ inputs.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ inputs.LHCI_GITHUB_TOKEN }}
         number: ${{ github.event.issue.number }}
         header: lighthouse
         message: |

@@ -15,8 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: ./
+      - uses: ./pull-request
         with:
           number: ${{ github.event.issue.number }}
           LHCI_GITHUB_TOKEN: ${{ secrets.LHCI_GITHUB_TOKEN }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
