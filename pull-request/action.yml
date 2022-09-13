@@ -45,8 +45,8 @@ runs:
           const getComment = require(path.resolve('./src/getComment.js'))
           const result = ${{ steps.lhci.outputs.manifest }}[0].summary
           const mappedResult = mapLhciResults(result)
-          console.log(mappedResult)
-          const comment = getComment([mappedResult])
+          const results = [mappedResult]
+          const comment = getComment({results})
           console.log(comment)
     - name: Add comment to PR
       id: comment_to_pr
