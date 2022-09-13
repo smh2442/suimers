@@ -151,7 +151,7 @@ const assert = {
 const collect = {
   chromePath: '/opt/hostedtoolcache/chromium/latest/x64/chrome',
   startServerCommand:
-    'node server',
+    'npm run serve:lhci',
   startServerReadyPattern: 'listening',
   settings: {chromeFlags: ['--disable-gpu', '--no-sandbox', '-no-zygote']}
 }
