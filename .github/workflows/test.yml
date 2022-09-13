@@ -23,3 +23,4 @@ jobs:
         with:
           number: ${{ github.event.issue.number }}
           LHCI_GITHUB_TOKEN: ${{ secrets.LHCI_GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

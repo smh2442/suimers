@@ -8,6 +8,9 @@ inputs:
   LHCI_GITHUB_TOKEN:
     description: 'LHCI_GITHUB_TOKEN'
     required: true
+  GITHUB_TOKEN:
+    description: 'GITHUB_TOKEN'
+    required: true
 
 runs:
   using: "composite"
@@ -34,15 +37,12 @@ runs:
     - name: Format lighthouse score
       id: format_lighthouse_score
       uses: actions/github-script@v6
-      env:
-        manifest: ${{ steps.lighthouse_audit.outputs.manifest }}
-        links: ${{ steps.lighthouse_audit.outputs.links }}
       with:
-        github-token: ${{inputs.LHCI_GITHUB_TOKEN}}
+        github-token: ${{inputs.GITHUB_TOKEN}}
         script: |
-          console.log(${{ process.env.manifest }})
-          const result = ${{ process.env.manifest }}[0].summary
-          const links = ${{ process.env.links }}
+          console.log(${{ steps.lighthouse_audit.outputs }})
+          const result = ${{ steps.lighthouse_audit.outputs.manifest }}[0].summary
+          const links = ${{ steps.lighthouse_audit.outputs.links }}
           const formatResult = (res) => Math.round((res * 100))
           Object.keys(result).forEach(key => result[key] = formatResult(result[key]))
           const score = res => res >= 90 ? '🟢' : res >= 50 ? '🟠' : '🔴'
@@ -63,7 +63,7 @@ runs:
       id: comment_to_pr
       uses: marocchino/sticky-pull-request-comment@v2
       with:
-        GITHUB_TOKEN: ${{ inputs.LHCI_GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ inputs.GITHUB_TOKEN }}
         number: ${{ github.event.issue.number }}
         header: lighthouse
         message: |
