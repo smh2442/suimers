@@ -30,10 +30,8 @@ runs:
       with:
         script: |
           const path = require('path')
-          const mapLhciResults = require(path.resolve('./src/mapLhciResults.js'))
-          const fromResultsToCommentMapper = require(path.resolve('./src/fromResultsToCommentMapper.js'))
-          const results = mapLhciResults(${{ steps.lhci.outputs.manifest }})
-          const comment = fromResultsToCommentMapper(results)
+          const generateCommentFromResults = require(path.resolve('./src/generateCommentFromResults.js'))
+          const comment = generateCommentFromResults(${{ steps.lhci.outputs.manifest }})
           core.setOutput("comment", comment);
     - name: Add comment to PR
       id: comment_to_pr
