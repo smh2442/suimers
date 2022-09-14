@@ -31,7 +31,8 @@ runs:
         script: |
           const path = require('path')
           const generateCommentFromResults = require(path.resolve('./src/generateCommentFromResults.js'))
-          const comment = generateCommentFromResults(${{ steps.lhci.outputs.manifest }})
+          const results = ${{ steps.lhci.outputs.manifest }}
+          const comment = generateCommentFromResults({results})
           core.setOutput("comment", comment);
     - name: Add comment to PR
       id: comment_to_pr
