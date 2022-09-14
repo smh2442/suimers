@@ -143,22 +143,22 @@ const assertions = {
   viewport: ['off', {}]
 }
 
+
+const assert = {
+  assertions
+}
+
 const collect = {
   chromePath: '/opt/hostedtoolcache/chromium/latest/x64/chrome',
   startServerCommand:
-    'node server',
+    'npm run serve:lhci',
   startServerReadyPattern: 'listening',
   settings: {chromeFlags: ['--disable-gpu', '--no-sandbox', '-no-zygote']}
 }
 
 module.exports = {
   ci: {
-    assert: {
-      assertions
-    },
-    collect,
-    upload: {
-      githubApiHost: 'https://github.mpi-internal.com/api/v3'
-    }
+    assert,
+    collect
   }
 }

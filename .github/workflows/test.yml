@@ -2,25 +2,39 @@ name: Test this action
 
 on:
   push:
-    branches: [ master ]
+    branches: [ main ]
   pull_request:
-    branches: [ master ]
+    branches: [ main ]
 
 jobs:
   check-skip:
-    runs-on: small
+    runs-on: ubuntu-latest
     steps:
       - name: Cancel Previous Redundant Builds
         uses: styfle/cancel-workflow-action@0.6.0
         with:
           access_token: ${{ github.token }}
 
-  test-action:
-    runs-on: small
+  tests:
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: ./
+      - name: Checkout Code
+        uses: actions/checkout@v3
+      
+      - name: Setup node
+        uses: actions/setup-node@v2
         with:
-          number: ${{ github.event.issue.number }}
-          LHCI_GITHUB_TOKEN: ${{ secrets.LHCI_GITHUB_TOKEN }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          node-version: 16
+
+      - name: Install dependencies
+        run: npm run phoenix
+
+      - name: Run Tests
+        run: npm run test
+
+      - name: Run Lighthouse pull request action
+        uses: ./pull-request
+        with:
+          urls: |
+            http://localhost:8000/
+            http://localhost:8000/listing

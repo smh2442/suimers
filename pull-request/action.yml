@@ -1,0 +1,45 @@
+name: 'Lighthouse CI for Pull Requests'
+description: 'Runs Lighthouse CI on a PR and posts the results as a comment'
+
+inputs:
+  urls:
+    description: 'List of URL(s) to analyze'
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - run: |
+        sudo apt-get update
+        sudo apt-get install -y libgconf-2-4 libatk1.0-0 libatk-bridge2.0-0 libgdk-pixbuf2.0-0 libgtk-3-0 libgbm-dev libnss3-dev libxss-dev libasound2
+      shell: bash
+    - uses: browser-actions/setup-chrome@latest
+    - run: |
+        chrome --version
+        which chrome
+      shell: bash
+    - name: Audit preview URL with Lighthouse
+      id: lhci
+      uses: treosh/lighthouse-ci-action@v3
+      with:
+        configPath: ./.lighthouserc.js
+        urls: ${{inputs.urls}}
+    - name: Format lighthouse score
+      id: format_lhci_score
+      uses: actions/github-script@v6
+      with:
+        script: |
+          const path = require('path')
+          const generateCommentFromResults = require(path.resolve('./src/generateCommentFromResults.js'))
+          const results = ${{ steps.lhci.outputs.manifest }}
+          const comment = generateCommentFromResults({results})
+          core.setOutput("comment", comment);
+    - name: Add comment to PR
+      id: comment_to_pr
+      uses: marocchino/sticky-pull-request-comment@v2
+      with:
+        hide_and_recreate: true
+        hide_classify: "OUTDATED"
+        number: ${{ github.event.issue.number }}
+        message: |
+          ${{ steps.format_lhci_score.outputs.comment }}
