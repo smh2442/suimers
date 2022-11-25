@@ -33,7 +33,7 @@ jobs:
         run: npm run test
 
       - name: Run Lighthouse pull request action
-        uses: ./pull-request
+        uses: ./action.yml
         with:
           urls: |
             http://localhost:8000/
