@@ -5,6 +5,9 @@ inputs:
   urls:
     description: 'List of URL(s) to analyze'
     required: true
+  lhConfigPath:
+    description: 'Config passed to lighthouse ci action'
+    required: true
 
 runs:
   using: "composite"
@@ -22,7 +25,7 @@ runs:
       id: lhci
       uses: treosh/lighthouse-ci-action@v3
       with:
-        configPath: ./.lighthouserc.js
+        configPath: ${{inputs.lhConfigPath}}
         urls: ${{inputs.urls}}
     - name: Format lighthouse score
       id: format_lhci_score
