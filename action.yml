@@ -35,6 +35,10 @@ runs:
       run: echo ${{ steps.lhci.outputs.manifest }}
       shell: bash
 
+    - name: Install action dependencies
+      run: npm install ${{ github.action_path }}
+      shell: bash
+
     - name: Format Lighthouse score
       id: format_lhci_score
       run: node ${{ github.action_path }}/scripts/formatScore.js '${{ steps.lhci.outputs.manifest }}'
