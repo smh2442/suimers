@@ -31,10 +31,6 @@ runs:
         configPath: ${{inputs.lhConfigPath}}
         urls: ${{inputs.urls}}
 
-    - name: Echo manifest
-      run: echo ${{ steps.lhci.outputs.manifest }}
-      shell: bash
-
     - name: Install action dependencies
       run: npm install ${{ github.action_path }}
       shell: bash
