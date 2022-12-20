@@ -34,7 +34,7 @@ jobs:
       - name: Run tests
         run: npm run test
 
-      - name: Run Lighthouse Pull Request Action
+      - name: Run Lighthouse pull request action
         uses: ./
         with:
           urls: |
