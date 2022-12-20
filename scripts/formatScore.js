@@ -11,6 +11,6 @@ try {
 
   core.setOutput('comment', comment)
 } catch (err) {
-  console.error(err) // eslint-disable-line
+  core.setOutput('comment', err)
   process.exit(1)
 }
