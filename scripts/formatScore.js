@@ -4,6 +4,7 @@ const core = require('@actions/core')
 const generateCommentFromResults = require('./utils/generateCommentFromResults.js')
 
 const args = process.argv.slice(2)
+console.log({args})
 const [results] = args
 
 const comment = generateCommentFromResults({results})
