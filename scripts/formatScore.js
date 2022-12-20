@@ -6,6 +6,11 @@ const generateCommentFromResults = require('./utils/generateCommentFromResults.j
 const args = process.argv.slice(2)
 const [results] = args
 
-const comment = generateCommentFromResults({results})
+try {
+  const comment = generateCommentFromResults({results: JSON.parse(results)})
 
-core.setOutput('comment', comment)
+  core.setOutput('comment', comment)
+} catch (err) {
+  console.error(err) // eslint-disable-line
+  process.exit(1)
+}
