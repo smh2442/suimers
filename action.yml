@@ -37,7 +37,7 @@ runs:
 
     - name: Format Lighthouse score
       id: format_lhci_score
-      run: node ${{ github.action_path }}/scripts/formatScore.js "${{ steps.lhci.outputs.manifest }}"
+      run: node ${{ github.action_path }}/scripts/formatScore.js '${{ steps.lhci.outputs.manifest }}'
       shell: bash
 
     - name: Add comment to PR
