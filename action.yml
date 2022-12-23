@@ -31,14 +31,18 @@ runs:
         configPath: ${{inputs.lhConfigPath}}
         urls: ${{inputs.urls}}
 
-    - name: Install action dependencies
-      run: npm install -g @actions/core
-      shell: bash
+    - name: Checkout
+      uses: actions/checkout@v3
 
-    - name: Format Lighthouse score
+    - name: Format lighthouse score
       id: format_lhci_score
-      run: node ${{ github.action_path }}/scripts/formatScore.js '${{ steps.lhci.outputs.manifest }}'
-      shell: bash
+      uses: actions/github-script@v6
+      with:
+        script: |
+          const generateCommentFromResults = require('../scripts/generateCommentFromResults.js')
+          const results = ${{ steps.lhci.outputs.manifest }}
+          const comment = generateCommentFromResults({results})
+          core.setOutput('comment', comment)
 
     - name: Add comment to PR
       id: comment_to_pr
