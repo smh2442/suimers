@@ -39,7 +39,7 @@ runs:
       uses: actions/github-script@v6
       with:
         script: |
-          const generateCommentFromResults = require('../scripts/generateCommentFromResults.js')
+          const generateCommentFromResults = require('./scripts/generateCommentFromResults.js')
           const results = ${{ steps.lhci.outputs.manifest }}
           const comment = generateCommentFromResults({results})
           core.setOutput('comment', comment)
