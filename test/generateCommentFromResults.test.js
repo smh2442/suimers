@@ -1,7 +1,7 @@
 /* eslint-env mocha */
 import {expect} from 'chai'
 
-const generateCommentFromResults = require('../scripts/utils/generateCommentFromResults.js')
+const generateCommentFromResults = require('../scripts/generateCommentFromResults.js')
 
 const input = [
   {

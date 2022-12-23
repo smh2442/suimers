@@ -1,7 +1,7 @@
 /* eslint-env mocha */
 import {expect} from 'chai'
 
-const fromResultsToCommentMapper = require('../scripts/utils/fromResultsToCommentMapper.js')
+const fromResultsToCommentMapper = require('../scripts/fromResultsToCommentMapper.js')
 
 const input = [
   {
