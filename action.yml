@@ -32,7 +32,7 @@ runs:
         urls: ${{inputs.urls}}
 
     - name: Install action dependencies
-      run: npm install ${{ github.action_path }} --legacy-peer-deps
+      run: npm install -g @actions/core
       shell: bash
 
     - name: Format Lighthouse score

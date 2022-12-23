@@ -13,9 +13,6 @@
     "serve:lhci": "NODE_ENV=production node server",
     "test": "npx @s-ui/test server -P './test/**/*.js'"
   },
-  "dependencies": {
-    "@actions/core": "1.10.0"
-  },
   "devDependencies": {
     "@s-ui/lint": "4",
     "@s-ui/test": "8",
