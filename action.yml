@@ -34,12 +34,18 @@ runs:
     - name: Checkout
       uses: actions/checkout@v3
 
+    - name: Check paths
+      run: |
+        echo '${{ github.action_path }}'
+        echo '${{ github.workspace }}'
+      shell: bash
+
     - name: Format lighthouse score
       id: format_lhci_score
       uses: actions/github-script@v6
       with:
         script: |
-          const generateCommentFromResults = require('./scripts/generateCommentFromResults.js')
+          const generateCommentFromResults = require('${{ github.workspace }}/scripts/generateCommentFromResults.js')
           const results = ${{ steps.lhci.outputs.manifest }}
           const comment = generateCommentFromResults({results})
           core.setOutput('comment', comment)
