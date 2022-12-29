@@ -1,27 +1,29 @@
-name: Test this action
+name: CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   check-skip:
+    name: Skip redundant builds
     runs-on: ubuntu-latest
     steps:
-      - name: Cancel Previous Redundant Builds
+      - name: Cancel previous redundant builds
         uses: styfle/cancel-workflow-action@0.6.0
         with:
           access_token: ${{ github.token }}
 
-  tests:
+  ci:
+    name: Tests & Release
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
-      
-      - name: Setup node
+
+      - name: Setup Node
         uses: actions/setup-node@v2
         with:
           node-version: 16
@@ -29,7 +31,7 @@ jobs:
       - name: Install dependencies
         run: npm run phoenix
 
-      - name: Run Tests
+      - name: Run tests
         run: npm run test
 
       - name: Run Lighthouse pull request action
@@ -39,3 +41,12 @@ jobs:
             http://localhost:8000/
             http://localhost:8000/listing
           lhConfigPath: ./.lighthouserc.js
+
+      - name: Release package
+        if: github.event_name == 'push'
+        run: npx @s-ui/ci release
+        env:
+          GITHUB_EMAIL: cloud-accounts@scmspain.com
+          GITHUB_TOKEN: ${{github.token}}
+          GITHUB_USER: sui-bot
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

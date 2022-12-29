@@ -1,7 +1,7 @@
 /* eslint-env mocha */
 import {expect} from 'chai'
 
-const mapLhciResults = require('../src/mapLhciResults.js')
+const mapLhciResults = require('../scripts/mapLhciResults.js')
 
 const input = [
   {
