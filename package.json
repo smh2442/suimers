@@ -18,6 +18,11 @@
     "@s-ui/test": "8",
     "chai": "4.3.6"
   },
+  "config": {
+    "sui-mono": {
+      "access": "public"
+    }
+  },
   "eslintConfig": {
     "extends": [
       "./node_modules/@s-ui/lint/eslintrc.js"
