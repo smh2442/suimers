@@ -14,7 +14,6 @@
     "test": "npx @s-ui/test server -P './test/**/*.js'"
   },
   "devDependencies": {
-    "@s-ui/ci": "1",
     "@s-ui/lint": "4",
     "@s-ui/test": "8",
     "chai": "4.3.6"
