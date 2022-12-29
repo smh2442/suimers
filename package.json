@@ -2,6 +2,7 @@
   "name": "@s-ui/lighthouse-action",
   "version": "1.0.0",
   "description": "Action for running Lighthouse CI on a PR and posts the results as a comment",
+  "private": true,
   "repository": {
     "type": "git",
     "url": "https://github.com/SUI-Components/lighthouse-action.git"
@@ -17,11 +18,6 @@
     "@s-ui/lint": "4",
     "@s-ui/test": "8",
     "chai": "4.3.6"
-  },
-  "config": {
-    "sui-mono": {
-      "access": "public"
-    }
   },
   "eslintConfig": {
     "extends": [
