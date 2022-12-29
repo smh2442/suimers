@@ -17,7 +17,7 @@ jobs:
           access_token: ${{ github.token }}
 
   ci:
-    name: Tests & Release
+    name: Tests
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
@@ -41,12 +41,3 @@ jobs:
             http://localhost:8000/
             http://localhost:8000/listing
           lhConfigPath: ./.lighthouserc.js
-
-      - name: Release package
-        if: github.event_name == 'push'
-        run: npx @s-ui/ci release
-        env:
-          GITHUB_EMAIL: cloud-accounts@scmspain.com
-          GITHUB_TOKEN: ${{github.token}}
-          GITHUB_USER: sui-bot
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
