@@ -30,7 +30,8 @@ runs:
       with:
         configPath: ${{inputs.lhConfigPath}}
         urls: ${{inputs.urls}}
-
+        uploadArtifacts: true
+        temporaryPublicStorage: true
     - name: Checkout
       uses: actions/checkout@v3
 
